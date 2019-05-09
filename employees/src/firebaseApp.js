@@ -9,5 +9,3 @@ export const firebaseApp = firebase.initializeApp({
     messagingSenderId: "450462568510",
     appId: "1:450462568510:web:6919bdeaea0c7af0"
 });
-
-export const secretRef = firebaseApp.database().ref().child('secret');
