@@ -6,5 +6,8 @@ export const mutations = {
     },
     [types.SIGN_OUT] (state) {
         state.user = {};
+    },
+    [types.SET_EMPLOYEES] (state, employees_payload) {
+        state.employees = employees_payload;
     }
 };

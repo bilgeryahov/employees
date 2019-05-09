@@ -2,7 +2,7 @@
   <div class>
     <h3>Dashboard</h3>
     <button class="btn btn-danger btn-sm signout-btn" @click="signOut">Sign Out</button>
-    {{$store.state}}
+    {{$store.state.employees}}
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
         headers
       })
         .then(res => res.json())
-        .then(jsonRes => console.log(jsonRes));
+        .then(jsonRes => this.$store.dispatch('setEmployees', jsonRes));
     }
   },
   mounted() {
