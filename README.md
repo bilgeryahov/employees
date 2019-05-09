@@ -1,1 +1,3 @@
 Test App...
+
+[![Build Status](https://travis-ci.com/bilger-progress/employees.svg?branch=master)](https://travis-ci.com/bilger-progress/employees)
