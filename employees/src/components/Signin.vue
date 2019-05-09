@@ -1,24 +1,25 @@
 <template>
-    <div class="form-inline">
-        <h3>Sign In</h3>
-        <div class="form-group">
-            <input
-                type="text"
-                placeholder="email"
-                class="form-control"
-                v-model="email"
-            />
-            <input
-                type="password"
-                placeholder="password"
-                class="form-control"
-                v-model="password"
-            />
-            <button class="btn btn-primary" @click="signIn">Sign In</button>
-        </div>
-        <br />
-        <p>{{error.message}}</p>
-    </div>
+	<div class="from-inline">
+		<h3>Sign In</h3>
+		<div class="form-group">
+			<input
+				type="text"
+				placeholder="email"
+				class="form-control"
+				v-model="email"
+			/>
+			<input
+				type="password"
+				placeholder="password"
+				class="form-control"
+				v-model="password"
+			/>
+			<button class="btn btn-primary signin-btn" @click="signIn">Sign In</button>
+		</div>
+		<br />
+		<p>{{ error.message }}</p>
+		<br />
+	</div>
 </template>
 
 <script>
