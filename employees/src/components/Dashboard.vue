@@ -2,7 +2,7 @@
   <div class>
     <h3>Dashboard</h3>
     <button class="btn btn-danger btn-sm signout-btn" @click="signOut">Sign Out</button>
-    <div class="row">
+    <div class="row row-employees">
       <Employee
         v-for="(employee, index) in this.$store.state.employees"
         :employee="employee"
