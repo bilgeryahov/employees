@@ -6,7 +6,7 @@ import * as actions from './actions';
 Vue.use(Vuex);
 
 const state = {
-    user: {},
+    user: null,
     employees: []
 };
 
