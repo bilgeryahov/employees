@@ -1,6 +1,6 @@
 <template>
   <div class>
-    <h3>Dashboard</h3>
+    <h3>Dashboard.</h3>
     <button class="btn btn-danger btn-sm signout-btn" @click="signOut">Sign Out</button>
     <div class="row row-employees">
       <Employee
