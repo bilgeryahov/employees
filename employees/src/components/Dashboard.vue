@@ -36,11 +36,11 @@ export default {
       this.$store.dispatch("signOut");
       firebaseApp.auth().signOut();
     },
-    fetchEmployees(token) {
+    fetchEmployees() {
       fetch(SERVICE_URL + "/getAll", {
         method: "GET",
         headers: {
-          Authorization: "Bearer " + token
+          Authorization: "Bearer " + this.$store.state.user.fetchedIdToken
         }
       })
         .then(res => res.json())
@@ -51,15 +51,16 @@ export default {
   components: {
     Employee
   },
-  beforeCreate() {
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === mutationTypes.SIGN_IN) {
-        this.$store.state.user
-          .getIdToken(true)
-          .then(token => this.fetchEmployees(token))
-          .catch(error => (this.error = error));
-      }
-    });
+  mounted() {
+    if (this.$store.state.user) {
+      this.fetchEmployees();
+    } else {
+      this.$store.subscribe(mutation => {
+        if (mutation.type === mutationTypes.SIGN_IN) {
+          this.fetchEmployees();
+        }
+      });
+    }
   }
 };
 </script>
