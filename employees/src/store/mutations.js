@@ -7,6 +7,7 @@ export const mutations = {
     [types.SIGN_IN](state, user_payload) {
         state.user = user_payload;
     },
+    // eslint-disable-next-line
     [types.SIGN_OUT](state) {
         state = { ...DEFAULT_STATE };
     },
