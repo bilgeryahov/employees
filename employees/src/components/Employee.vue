@@ -5,6 +5,7 @@
       <EmployeeDetails :employeeDetails="this.employeeDetails"/>
     </div>
     <button class="btn btn-danger btn-sm signout-btn" @click="signOut">Sign Out</button>
+    <button class="btn btn-primary btn-sm back-btn" @click="navigateDashboard">Back</button>
     <br>
     <p>{{ error.message }}</p>
     <br>
@@ -16,6 +17,7 @@ import { firebaseApp } from "../firebaseApp";
 import { SERVICE_URL } from "../configs";
 import * as mutationTypes from "../store/mutation-types";
 import EmployeeDetails from "./EmployeeDetails.vue";
+import { DASHBOARD_ROUTE } from "../routes";
 
 export default {
   data() {
@@ -30,6 +32,9 @@ export default {
     EmployeeDetails
   },
   methods: {
+    navigateDashboard() {
+      this.$router.push(DASHBOARD_ROUTE);
+    },
     signOut() {
       this.$store.dispatch("signOut");
       firebaseApp.auth().signOut();
