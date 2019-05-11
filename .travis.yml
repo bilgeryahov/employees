@@ -5,10 +5,15 @@ script:
   - cd ./employees/
   - npm install
   - npm install -g firebase-tools
+  # Trigger Unit & Integration tests.
   - npm run test:unit   
-  - npm run test:integration   
+  - npm run test:integration
+  # If pass, build Vue for production.
   - npm run build
+  # Deploy with CI token.
   - firebase deploy --only hosting --token $FIREBASE_TOKEN
 branches:
   only:
+  # Keep master-only for production deployments.
   - master
+  

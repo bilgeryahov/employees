@@ -8,8 +8,10 @@ import {
 
 Vue.use(Vuex);
 
+// Default the state.
 const state = { ...DEFAULT_STATE };
 
+// Initialize the main Vuex Store.
 export default new Vuex.Store({
     state,
     mutations,
