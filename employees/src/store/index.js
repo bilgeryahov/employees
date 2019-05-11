@@ -7,7 +7,8 @@ Vue.use(Vuex);
 
 const state = {
     user: null,
-    employees: []
+    employees: [],
+    empoyee_for_details: null
 };
 
 export default new Vuex.Store({
