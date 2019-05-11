@@ -1,15 +1,69 @@
 <template>
-    <div class="col-md-4">
-        <div class="employee-card">
-            <h4 class="card-title">{{employee.id}}</h4>
-            <p class="card-text">{{employee.first_name}}</p>
-            <p class="card-text">{{employee.surname}}</p>
-        </div>
-    </div>    
+  <div class>
+    <h3>Employee.</h3>
+    <div v-if="this.employeeDetails">
+      <EmployeeDetails :employeeDetails="this.employeeDetails"/>
+    </div>
+    <button class="btn btn-danger btn-sm signout-btn" @click="signOut">Sign Out</button>
+    <button class="btn btn-primary btn-sm back-btn" @click="navigateDashboard">Back</button>
+    <br>
+    <p>{{ error.message }}</p>
+    <br>
+  </div>
 </template>
 
 <script>
-    export default {
-        props: ['employee']
+import { firebaseApp } from "../firebaseApp";
+import { SERVICE_URL } from "../configs";
+import * as mutationTypes from "../store/mutation-types";
+import EmployeeDetails from "./EmployeeDetails.vue";
+import { DASHBOARD_ROUTE } from "../routes";
+
+export default {
+  data() {
+    return {
+      error: {
+        message: ""
+      },
+      employeeDetails: null
+    };
+  },
+  components: {
+    EmployeeDetails
+  },
+  methods: {
+    navigateDashboard() {
+      this.$router.push(DASHBOARD_ROUTE);
+    },
+    signOut() {
+      this.$store.dispatch("signOut");
+      firebaseApp.auth().signOut();
+    },
+    fetchEmployeeDetails() {
+      fetch(
+        SERVICE_URL + "/getOne?id=" + this.$store.state.empoyee_for_details.id,
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + this.$store.state.user.fetchedIdToken
+          }
+        }
+      )
+        .then(res => res.json())
+        .then(jsonRes => (this.employeeDetails = jsonRes))
+        .catch(error => (this.error = error));
     }
+  },
+  mounted() {
+    if (this.$store.state.empoyee_for_details) {
+      this.fetchEmployeeDetails();
+    } else {
+      this.$store.subscribe(mutation => {
+        if (mutation.type === mutationTypes.SET_EMPLOYEE_FOR_DETAILS) {
+          this.fetchEmployeeDetails();
+        }
+      });
+    }
+  }
+};
 </script>

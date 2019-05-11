@@ -24,6 +24,13 @@
 	right: 40px;
 }
 
+.back-btn {
+	position: absolute;
+	text-align: left;
+	top: 60px;
+	left: 40px;
+}
+
 .form {
 	padding-left: 10%;
 	padding-right: 10%;

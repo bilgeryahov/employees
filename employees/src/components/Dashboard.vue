@@ -2,12 +2,30 @@
   <div class>
     <h3>Dashboard.</h3>
     <button class="btn btn-danger btn-sm signout-btn" @click="signOut">Sign Out</button>
-    <div class="row row-employees">
-      <Employee
-        v-for="(employee, index) in this.$store.state.employees"
-        :employee="employee"
-        v-bind:key="index"
-      />
+    <div id="vue-table" v-if="this.$store.state.employees[0]">
+      <input type="text" v-model="search" class="form-control">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th
+              v-for="(employee_attribute, index) in Object.keys(this.$store.state.employees[0])"
+              v-bind:key="index"
+            >{{ employee_attribute }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(employee, index) in filteredEmployees"
+            v-bind:key="index"
+            @click="setEmployeeForDetails(employee)"
+            v-bind:style="{cursor: 'pointer'}"
+          >
+            <td>{{ employee.first_name }}</td>
+            <td>{{ employee.id }}</td>
+            <td>{{ employee.surname }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <br>
     <p>{{ error.message }}</p>
@@ -18,23 +36,39 @@
 <script>
 import { firebaseApp } from "../firebaseApp";
 import { SERVICE_URL } from "../configs";
+import { EMPLOYEE_ROUTE } from "../routes";
 
 import * as mutationTypes from "../store/mutation-types";
-
-import Employee from "./Employee.vue";
 
 export default {
   data() {
     return {
       error: {
         message: ""
-      }
+      },
+      search: ""
     };
+  },
+  computed: {
+    filteredEmployees() {
+      return this.search
+        ? this.$store.state.employees.filter(
+            employee =>
+              employee.first_name.toLowerCase().includes(this.search) ||
+              employee.surname.toLowerCase().includes(this.search)
+          )
+        : this.$store.state.employees;
+    }
   },
   methods: {
     signOut() {
       this.$store.dispatch("signOut");
       firebaseApp.auth().signOut();
+    },
+    setEmployeeForDetails(employee) {
+      this.$store
+        .dispatch("setEmployeeForDetails", employee)
+        .then(this.$router.push(EMPLOYEE_ROUTE + "/" + employee.id));
     },
     fetchEmployees() {
       fetch(SERVICE_URL + "/getAll", {
@@ -47,9 +81,6 @@ export default {
         .then(jsonRes => this.$store.dispatch("setEmployees", jsonRes))
         .catch(error => (this.error = error));
     }
-  },
-  components: {
-    Employee
   },
   mounted() {
     if (this.$store.state.user) {
