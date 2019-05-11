@@ -1,3 +1,5 @@
+require("../public/index.css");
+
 import Vue from 'vue';
 import App from './components/App';
 import VueRouter from 'vue-router';
@@ -32,7 +34,7 @@ const allowedAuthRoutes = [
     EMPLOYEE_ROUTE + EMPLOYEE_ROUTE_ID
 ];
 
-function redirectMainIfNot(){
+function redirectMainIfNot() {
     return (
         store.state.empoyee_for_details
     );
