@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 
+// Note: The following config is NOT meant for Admin SDK, thus does not contain sensitive info.
 export const firebaseApp = firebase.initializeApp({
     apiKey: "AIzaSyBU5Fkifs-dGDIkvEUIrKzt3IYUqY6rfDU",
     authDomain: "employees-70f8e.firebaseapp.com",

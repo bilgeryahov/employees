@@ -37,7 +37,6 @@
 import { firebaseApp } from "../firebaseApp";
 import { SERVICE_URL } from "../configs";
 import { EMPLOYEE_ROUTE } from "../routes";
-
 import * as mutationTypes from "../store/mutation-types";
 
 export default {
