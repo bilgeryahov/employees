@@ -7,9 +7,12 @@ import Dashboard from './components/Dashboard';
 import Signin from './components/Signin';
 import Employee from './components/Employee';
 
-const DASHBOARD_ROUTE = '/dashboard';
-const SIGNIN_ROUTE = '/signin';
-const EMPLOYEE_ROUTE = '/employee/:id';
+import {
+    DASHBOARD_ROUTE,
+    SIGNIN_ROUTE,
+    EMPLOYEE_ROUTE,
+    EMPLOYEE_ROUTE_ID
+} from './routes';
 
 import store from './store';
 
@@ -20,13 +23,13 @@ const router = new VueRouter({
     routes: [
         { path: DASHBOARD_ROUTE, component: Dashboard },
         { path: SIGNIN_ROUTE, component: Signin },
-        { path: EMPLOYEE_ROUTE, component: Employee }
+        { path: EMPLOYEE_ROUTE + EMPLOYEE_ROUTE_ID, component: Employee }
     ]
 });
 
 const allowedAuthRoutes = [
     DASHBOARD_ROUTE,
-    EMPLOYEE_ROUTE
+    EMPLOYEE_ROUTE + EMPLOYEE_ROUTE_ID
 ];
 
 firebaseApp.auth().onAuthStateChanged(user => {
@@ -34,7 +37,7 @@ firebaseApp.auth().onAuthStateChanged(user => {
         user.getIdToken(true)
             .then(fetchedIdToken => store.dispatch('signIn', { ...user, fetchedIdToken }))
             .then(() => {
-                if (!router.currentRoute.matched[0] || !allowedAuthRoutes.includes(router.currentRoute.matched[0].path) ) {
+                if (!router.currentRoute.matched[0] || !allowedAuthRoutes.includes(router.currentRoute.matched[0].path)) {
                     router.push(DASHBOARD_ROUTE);
                 }
             });
