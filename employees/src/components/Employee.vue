@@ -1,15 +1,19 @@
 <template>
-    <div class="col-md-4">
-        <div class="employee-card">
-            <h4 class="card-title">{{employee.id}}</h4>
-            <p class="card-text">{{employee.first_name}}</p>
-            <p class="card-text">{{employee.surname}}</p>
-        </div>
-    </div>    
+  <div class>
+    <h3>Employee.</h3>
+    <button class="btn btn-danger btn-sm signout-btn" @click="signOut">Sign Out</button>
+  </div>
 </template>
 
 <script>
-    export default {
-        props: ['employee']
+import { firebaseApp } from "../firebaseApp";
+
+export default {
+  methods: {
+    signOut() {
+      this.$store.dispatch("signOut");
+      firebaseApp.auth().signOut();
     }
+  }
+};
 </script>
