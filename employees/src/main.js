@@ -32,12 +32,18 @@ const allowedAuthRoutes = [
     EMPLOYEE_ROUTE + EMPLOYEE_ROUTE_ID
 ];
 
+function redirectMainIfNot(){
+    return (
+        store.state.empoyee_for_details
+    );
+}
+
 firebaseApp.auth().onAuthStateChanged(user => {
     if (user) {
         user.getIdToken(true)
             .then(fetchedIdToken => store.dispatch('signIn', { ...user, fetchedIdToken }))
             .then(() => {
-                if (!router.currentRoute.matched[0] || !allowedAuthRoutes.includes(router.currentRoute.matched[0].path)) {
+                if (!router.currentRoute.matched[0] || !allowedAuthRoutes.includes(router.currentRoute.matched[0].path) || !redirectMainIfNot()) {
                     router.push(DASHBOARD_ROUTE);
                 }
             });
