@@ -14,7 +14,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(employee, index) in filteredEmployees" v-bind:key="index">
+          <tr
+            v-for="(employee, index) in filteredEmployees"
+            v-bind:key="index"
+            @click="setEmployeeForDetails(employee)"
+            v-bind:style="{cursor: 'pointer'}"
+          >
             <td>{{ employee.first_name }}</td>
             <td>{{ employee.id }}</td>
             <td>{{ employee.surname }}</td>
@@ -31,6 +36,7 @@
 <script>
 import { firebaseApp } from "../firebaseApp";
 import { SERVICE_URL } from "../configs";
+import { EMPLOYEE_ROUTE } from "../routes";
 
 import * as mutationTypes from "../store/mutation-types";
 
@@ -58,6 +64,11 @@ export default {
     signOut() {
       this.$store.dispatch("signOut");
       firebaseApp.auth().signOut();
+    },
+    setEmployeeForDetails(employee) {
+      this.$store
+        .dispatch("setEmployeeForDetails", employee)
+        .then(this.$router.push(EMPLOYEE_ROUTE + "/" + employee.id));
     },
     fetchEmployees() {
       fetch(SERVICE_URL + "/getAll", {
