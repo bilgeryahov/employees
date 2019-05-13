@@ -1,29 +1,22 @@
-import Vue from 'vue';
+import { mount } from '@vue/test-utils';
 import EmployeeDetails from '../../src/components/EmployeeDetails.vue';
 
 // Import the mocks to be used.
 import { EMPLOYEE_MOCK } from '../mocks';
 
-/**
- * Initialize the Vue component.
- * Attach the props.
- * 
- * @param {*} Component 
- * @param {*} propsData 
- * @returns { Object }
- */
-function testHelper(Component, propsData) {
-    const Constructor = Vue.extend(Component);
-    const vm = new Constructor({ propsData }).$mount();
-    return vm.$options.propsData;
-}
-
-/**
- * Make sure that the component props are being applied properly.
- */
 describe('EmployeeDetails', () => {
-    it('renders correctly with different props', () => {
-        expect(Object.keys(testHelper(EmployeeDetails, { employeeDetails: EMPLOYEE_MOCK }).employeeDetails))
-            .toEqual(Object.keys(EMPLOYEE_MOCK));
+    const wrapper = mount(EmployeeDetails, {
+        propsData: {
+            employeeDetails: EMPLOYEE_MOCK
+        }
+    });
+    it('it is able to correctly set Component props.', () => {
+        expect(Object.keys(wrapper.props().employeeDetails)).toEqual(Object.keys(EMPLOYEE_MOCK));
+    });
+    it('it fetches a correct employee name from within the props data.', () => {
+        expect(wrapper.find('h5').text()).toBe(EMPLOYEE_MOCK.first_name);
+    });
+    it('it renders the employee info list with correct number of items.', () => {
+        expect(wrapper.find('ul').findAll('li').length).toBe(Object.keys(EMPLOYEE_MOCK).length);
     });
 });
