@@ -5,8 +5,10 @@ script:
   - cd ./employees/
   - npm install
   - npm install -g firebase-tools
-  # Trigger Unit & Integration tests.
-  - npm run test:unit   
+  # Trigger Unit tests.
+  - npm run test:unit
+  # Start the dev server, and trigger integration tests.
+  - npm run serve &
   - npm run test:integration
   # If pass, build Vue for production.
   - npm run build
