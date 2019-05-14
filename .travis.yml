@@ -11,8 +11,8 @@ script:
   - npm run serve &
   # Warm-up the Vue local server.
   - node ./warm-up-timer.js
-  # Trigger integration tests.
-  - npm run test:integration
+  # Trigger integration tests for production build.
+  - npm run test:integration-prod
   # If pass, build Vue for production.
   - npm run build
   # Deploy with CI token.

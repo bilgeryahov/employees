@@ -18,8 +18,8 @@ describe('Land and login:', () => {
             .children()
             .should('have.length', 3));
     it('logs a User in', () => {
-        cy.get('[type=text]').type(TEST_USER.EMAIL || process.env.TEST_EMAIL);
-        cy.get('[type=password]').type(TEST_USER.PASSWORD || process.env.TEST_PASSWORD);
+        cy.get('[type=text]').type(TEST_USER.EMAIL || Cypress.env('TEST_EMAIL'));
+        cy.get('[type=password]').type(TEST_USER.PASSWORD || Cypress.env('TEST_PASSWORD'));
         cy.get('button').click();
         // Wait about 5 seconds to make sure the login happens.
         cy.wait(5000);
