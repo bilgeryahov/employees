@@ -9,8 +9,10 @@ import { TEST_USER } from '../shared/configs';
  *   * check if the necessary elements are present to fulfil the operation;
  *   * enter a user name and a password, following that click appropriate button;
  *   * verify that the --Dashboard-- page is loaded;
+ *   * logout the User
+ *   * verify that the --Sign In-- page is loaded;
  */
-describe('Land and login:', () => {
+describe('land-login-logout:', () => {
     beforeEach(() => cy.visit('/'));
     it('loads and -Sign In- text is shown', () => cy.contains('Sign In'));
     it('checks if the -email-  and -password- input fields are present, as well as the -sign in- button', () =>
@@ -26,4 +28,10 @@ describe('Land and login:', () => {
         cy.location('pathname').should('eq', '/dashboard');
     });
     it('loads and -Dashboard- text is shown', () => cy.contains('Dashboard.'));
+    it('logs the User out', () => {
+        cy.get('button').click();
+        // Wait about 3 seconds to make sure the logout happens.
+        cy.wait(3);
+        cy.location('pathname').should('eq', '/signin');
+    });
 });
