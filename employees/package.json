@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "test:integration": "TEST_EMAIL=$TEST_EMAIL && TEST_PASSWORD=$TEST_PASSWORD &&  node_modules/.bin/cypress run"
+    "test:integration-prod": "node_modules/.bin/cypress run --env TEST_EMAIL=$TEST_EMAIL,TEST_PASSWORD=$TEST_PASSWORD",
+    "test:integration-dev": "node_modules/.bin/cypress run"
   },
   "dependencies": {
     "core-js": "^2.6.5",
