@@ -10,6 +10,8 @@
             <th
               v-for="(employee_attribute, index) in Object.keys(this.$store.state.employees[0])"
               v-bind:key="index"
+              @click="setSortValue(employee_attribute)"
+              v-bind:style="{cursor: 'pointer'}"
             >{{ employee_attribute }}</th>
           </tr>
         </thead>
@@ -45,21 +47,38 @@ export default {
       error: {
         message: ""
       },
-      search: ""
+      search: "",
+      sortValue: ""
     };
   },
   computed: {
     filteredEmployees() {
       return this.search
-        ? this.$store.state.employees.filter(
-            employee =>
-              employee.first_name.toLowerCase().includes(this.search) ||
-              employee.surname.toLowerCase().includes(this.search)
+        ? this.doSort(
+            this.$store.state.employees.filter(
+              employee =>
+                employee.first_name.toLowerCase().includes(this.search) ||
+                employee.surname.toLowerCase().includes(this.search)
+            )
           )
-        : this.$store.state.employees;
+        : this.doSort(this.$store.state.employees);
     }
   },
   methods: {
+    doSort(arr) {
+      if (this.sortValue) {
+        return arr.sort((a, b) => {
+          if (typeof a[this.sortValue] === "string") {
+            return a[this.sortValue].localeCompare(b[this.sortValue]);
+          }
+          return a[this.sortValue] - b[this.sortValue];
+        });
+      }
+      return arr;
+    },
+    setSortValue(value) {
+      this.sortValue = value;
+    },
     signOut() {
       this.$store.dispatch("signOut");
       firebaseApp.auth().signOut();
